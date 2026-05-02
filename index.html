@@ -406,9 +406,32 @@ async function placeOrder() {
     }
 }
 
-function submitRepair(event) {
-    event.preventDefault();
-    alert("Repair Request Sent!");
+async function submitRepair(event) {
+    event.preventDefault(); // Page refresh hone se rokne ke liye
+
+    const problem = document.getElementById('problem').value;
+    const name = document.getElementById('rname').value;
+    const phone = document.getElementById('rphone').value;
+    const email = document.getElementById('remail').value;
+
+    const { error } = await _supabase
+        .from('repairs') // Yahan apni repair table ka sahi naam likhein
+        .insert([
+            { 
+                name: name, 
+                phone: phone, 
+                email: email, 
+                problem: problem 
+            }
+        ]);
+
+    if (!error) {
+        alert("Repair Request Sent Successfully!");
+        document.getElementById('repairForm').reset(); // Form clear kar do
+    } else {
+        console.error(error);
+        alert("Error: Repair request send nahi hui. Table name check karein.");
+    }
 }
 
 // Chat Functions (Pehle wale hi hain)

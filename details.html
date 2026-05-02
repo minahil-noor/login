@@ -159,18 +159,27 @@
     }
 
     async function submitReview() {
-        const msg = document.getElementById('reviewText').value;
-        if(!msg) return alert("Please write something first.");
+    // फर्ज karein aapne input IDs ye rakhi hain:
+    const pName = document.getElementById('reviewProductName').value;
+    const rate = document.getElementById('reviewRating').value;
+    const msg = document.getElementById('reviewComment').value;
 
-        const { error } = await _supabase.from('reviews').insert([{ product_name: product.name, comment: msg }]);
-        
-        if(!error) {
-            alert("Review posted!");
-            location.reload();
-        } else {
-            alert("Error posting review. Try again.");
-        }
+    const { error } = await _supabase
+        .from('reviews') // Table name check karein
+        .insert([
+            { 
+                product_name: pName, 
+                rating: parseInt(rate), 
+                comment: msg 
+            }
+        ]);
+
+    if (!error) {
+        alert("Review Submitted!");
+    } else {
+        alert("Review error: " + error.message);
     }
+}
 </script>
 
 </body>
