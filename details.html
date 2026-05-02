@@ -2,102 +2,186 @@
 <html lang="en">
 <head>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Animate.css for smooth entry animations -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Premium Product Detail | Online Mob Hub</title>
     <style>
-        :root { --main-blue: #007bff; --hover-blue: #0056b3; --bg: #080808; --card: #151515; }
-        * { margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', sans-serif; }
-        body { background: var(--bg); color: #fff; line-height: 1.6; }
-
-        .container { max-width: 1200px; margin: 50px auto; padding: 20px; display: flex; flex-wrap: wrap; gap: 40px; }
-
-        /* Product Image */
-        .image-container { flex: 1; min-width: 300px; background: #fff; border-radius: 20px; display: flex; justify-content: center; align-items: center; padding: 30px; min-height: 400px; }
-        .image-container img { max-width: 100%; height: auto; border-radius: 10px; transition: 0.3s; }
-        .image-container img:hover { transform: scale(1.05); }
-
-        /* Content */
-        .details-container { flex: 1; min-width: 300px; }
-        h1 { font-size: 32px; margin-bottom: 10px; color: var(--main-blue); }
-        .price { font-size: 26px; font-weight: bold; margin-bottom: 20px; }
-        .description-box { background: var(--card); padding: 20px; border-radius: 15px; border: 1px solid #333; }
+        :root { 
+            --main-blue: #007bff; 
+            --hover-blue: #0056b3; 
+            --bg: #050505; 
+            --card: #121212; 
+            --glass: rgba(255, 255, 255, 0.05);
+        }
         
-        .pros { list-style: none; margin-top: 15px; }
-        .pros li { margin-bottom: 8px; color: #ccc; font-size: 14px; }
-        .pros li::before { content: '🚀'; margin-right: 10px; }
+        * { margin:0; padding:0; box-sizing:border-box; font-family: 'Poppins', sans-serif; }
+        body { background: var(--bg); color: #fff; overflow-x: hidden; }
 
-        /* Responsive Buttons Logic */
-        .action-btns { 
-            display: flex; 
-            flex-direction: column; /* Mobile: Buttons stacked */
-            gap: 15px; 
-            margin-top: 30px; 
+        /* Background Gradient Animation */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, #001f3f 0%, #050505 100%);
+            z-index: -1;
         }
 
+        .container { 
+            max-width: 1200px; 
+            margin: 60px auto; 
+            padding: 20px; 
+            display: flex; 
+            flex-wrap: wrap; 
+            gap: 50px;
+            animation: fadeIn 1s ease-in;
+        }
+
+        /* Premium Image Card with Floating Animation */
+        .image-container { 
+            flex: 1; 
+            min-width: 350px; 
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 30px; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            padding: 40px; 
+            min-height: 500px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+        }
+
+        .image-container img { 
+            max-width: 100%; 
+            height: auto; 
+            filter: drop-shadow(0 20px 30px rgba(0,0,0,0.8));
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Content Styling */
+        .details-container { flex: 1; min-width: 300px; }
+        h1 { font-size: 42px; font-weight: 800; margin-bottom: 10px; background: linear-gradient(to right, #fff, var(--main-blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .price { font-size: 30px; font-weight: 300; margin-bottom: 25px; color: #00d4ff; letter-spacing: 1px; }
+
+        .description-box { 
+            background: var(--card); 
+            padding: 25px; 
+            border-radius: 20px; 
+            border: 1px solid #222;
+            transition: 0.3s;
+        }
+        .description-box:hover { border-color: var(--main-blue); box-shadow: 0 10px 30px rgba(0,123,255,0.1); }
+        
+        .pros { list-style: none; margin-top: 20px; }
+        .pros li { margin-bottom: 12px; color: #aaa; font-size: 15px; display: flex; align-items: center; }
+        .pros li::before { content: '✓'; color: var(--main-blue); margin-right: 15px; font-weight: bold; }
+
+        /* Buttons with Shine Animation */
+        .action-btns { display: flex; flex-direction: column; gap: 20px; margin-top: 40px; }
         .btn { 
             width: 100%; 
-            padding: 16px; 
-            border: none; 
-            border-radius: 10px; 
+            padding: 18px; 
+            border-radius: 12px; 
             font-size: 16px; 
             font-weight: bold; 
             cursor: pointer; 
-            transition: 0.3s; 
-            text-transform: uppercase; 
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
         }
 
-        .btn-add { background: transparent; border: 2px solid var(--main-blue); color: var(--main-blue); }
-        .btn-add:hover { background: var(--main-blue); color: #fff; }
-        .btn-buy { background: var(--main-blue); color: #fff; }
-        .btn-buy:hover { background: var(--hover-blue); transform: translateY(-2px); }
-
-        /* Review Section */
-        .review-section { max-width: 1200px; margin: 40px auto; padding: 20px; background: var(--card); border-radius: 20px; }
-        .review-card { background: #222; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 4px solid var(--main-blue); }
-        textarea { width: 100%; padding: 15px; border-radius: 10px; background: #000; color: #fff; border: 1px solid #444; margin: 15px 0; min-height: 100px; }
-
-        /* Desktop Adjustment */
-        @media (min-width: 768px) {
-            .action-btns { flex-direction: row; } /* Side by side on desktop */
-            .btn { width: 50%; }
+        .btn-add { background: transparent; border: 2px solid var(--main-blue); color: #fff; }
+        .btn-add:hover { background: var(--main-blue); transform: scale(1.02); }
+        
+        .btn-buy { 
+            background: var(--main-blue); 
+            color: #fff; 
+            border: none;
+            box-shadow: 0 10px 20px rgba(0,123,255,0.3);
         }
+        .btn-buy:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,123,255,0.5); }
+
+        /* Reviews Glassmorphism */
+        .review-section { 
+            max-width: 1200px; 
+            margin: 60px auto; 
+            padding: 30px; 
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border-radius: 30px; 
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .review-card { 
+            background: rgba(255,255,255,0.03); 
+            padding: 20px; 
+            border-radius: 15px; 
+            margin-bottom: 20px; 
+            border-left: 5px solid var(--main-blue);
+            transition: 0.3s;
+        }
+        .review-card:hover { background: rgba(255,255,255,0.07); transform: translateX(10px); }
+
+        textarea { 
+            width: 100%; padding: 20px; border-radius: 15px; 
+            background: #000; color: #fff; border: 1px solid #333; 
+            margin: 20px 0; min-height: 120px; outline: none;
+        }
+        textarea:focus { border-color: var(--main-blue); }
+
+        @media (min-width: 768px) { .action-btns { flex-direction: row; } .btn { width: 50%; } }
     </style>
 </head>
 <body>
 
-<div class="container">
+<div class="container animate__animated animate__fadeIn">
+    <!-- Image with floating effect -->
     <div class="image-container" id="displayImg"></div>
     
     <div class="details-container">
-        <h1 id="displayName">Product Name</h1>
+        <h1 id="displayName" class="animate__animated animate__slideInRight">Product Name</h1>
         <div class="price" id="displayPrice">PKR 0</div>
         
-        <div class="description-box">
-            <h3>Why Online Mob Hub?</h3>
-            <p>Premium quality assured with official warranty and express delivery across Pakistan.</p>
+        <div class="description-box animate__animated animate__fadeInUp">
+            <h3 style="color: var(--main-blue); margin-bottom: 10px;">The Online Mob Hub Standard</h3>
+            <p style="color: #eee;">Experience the pinnacle of mobile technology with our handpicked premium selection. Every device undergoes a 20-point quality check.</p>
             <ul class="pros">
-                <li>100% Authentic Product</li>
-                <li>Secure Packaging</li>
-                <li>7-Day Replacement Policy</li>
+                <li>PTA Approved & Official Warranty</li>
+                <li>Next-Day Delivery in Major Cities</li>
+                <li>Premium After-Sales Support</li>
             </ul>
         </div>
 
         <div class="action-btns">
+            <!-- addToCart function now handles BOTH Local and Backend -->
             <button class="btn btn-add" onclick="addToCart(false)">Add to Cart</button>
             <button class="btn btn-buy" onclick="addToCart(true)">Checkout Now</button>
         </div>
     </div>
 </div>
 
-<div class="review-section">
-    <h2>Customer Reviews</h2>
-    <div id="reviewsContainer" style="margin-top:20px; color: #bbb;">Loading reviews...</div>
-    <textarea id="reviewText" placeholder="Write your experience..."></textarea>
-    <button class="btn btn-buy" style="width: auto; padding: 12px 30px;" onclick="submitReview()">Post Review</button>
+<div class="review-section animate__animated animate__fadeInUp">
+    <h2 style="margin-bottom: 20px;">What Our Clients Say</h2>
+    <div id="reviewsContainer" style="margin-bottom:30px; color: #ccc;">Checking for reviews...</div>
+    
+    <div style="background: rgba(0,0,0,0.3); padding: 25px; border-radius: 20px;">
+        <h3>Leave a Review</h3>
+        <textarea id="reviewText" placeholder="Share your premium experience..."></textarea>
+        <button class="btn btn-buy" style="width: auto; padding: 12px 40px; border-radius: 30px;" onclick="submitReview()">Post Review</button>
+    </div>
 </div>
 
 <script>
+    // Supabase Configuration
     const supabaseUrl = 'https://cxyxbwsosroeipdjyuuc.supabase.co';
     const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN4eXhid3Nvc3JvZWlwZGp5dXVjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc2MDcxMzQsImV4cCI6MjA5MzE4MzEzNH0.8lI73RmCGGU3jQsiJxnyCMOe1NSaLWqvO3_1FBRZImM';
     const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
@@ -108,74 +192,89 @@
     if (product) {
         document.getElementById('displayName').innerText = product.name;
         document.getElementById('displayPrice').innerText = "PKR " + product.price.toLocaleString();
-        document.getElementById('displayImg').innerHTML = `<img src="${product.img}" alt="${product.name}">`;
+        document.getElementById('displayImg').innerHTML = `<img src="${product.img}" alt="${product.name}" class="animate__animated animate__zoomIn">`;
         loadReviews();
     } else {
-        document.body.innerHTML = "<h2 style='text-align:center; margin-top:50px;'>Product not found. Please go back.</h2>";
+        document.body.innerHTML = "<div style='text-align:center; padding:100px;'><h2>Product Not Found</h2><a href='index.html' style='color:var(--main-blue)'>Return to Home</a></div>";
     }
 
-    // Logic for Cart and Checkout
-    function addToCart(goToCheckout) {
-        let cart = JSON.parse(localStorage.getItem("cart")) || [];
-        
-        // Check if item already exists to avoid duplicates
-        const existingItem = cart.find(item => item.name === product.name);
-        if (existingItem) {
-            existingItem.qty += 1;
-        } else {
-            product.qty = 1;
-            cart.push({
-    name: product.name,
-    price: product.price,
-    img: product.img,
-    qty: 1
-});
-        }
+    // --- CRITICAL BACKEND + LOCAL STORAGE LOGIC ---
+    async function addToCart(isCheckout) {
+        if (!product) return;
 
+        // 1. SAVE TO BACKEND (Supabase)
+        // Hum 'orders' table ko track kar rahe hain ke feature page se kitni activity ho rahi hai
+        const { error: backendError } = await _supabase.from('orders').insert([{ 
+            customer_name: "Feature Page Activity", 
+            items: product.name, 
+            total: product.price,
+            status: 'Interested', // This marks it as a cart activity in your admin panel
+            phone: 'Pending Action'
+        }]);
+
+        if (backendError) console.error("Database Save Error:", backendError.message);
+
+        // 2. SAVE TO LOCAL STORAGE (Browser)
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        const existing = cart.find(item => item.name === product.name);
+        if (existing) {
+            existing.qty += 1;
+        } else {
+            cart.push({ name: product.name, price: product.price, image: product.img, qty: 1 });
+        }
         localStorage.setItem("cart", JSON.stringify(cart));
 
-        if (goToCheckout) {
-            window.location.href = "index.html#cart"; // Redirect to checkout/cart section
+        // 3. UI RESPONSE
+        if (isCheckout) {
+            window.location.href = "checkout.html";
         } else {
-            alert("Item added to cart successfully!");
+            // Sweet notification style
+            alert("✨ " + product.name + " has been added to your cart and recorded in our database!");
         }
     }
 
-    // Supabase Reviews Logic
+    // --- REVIEWS LOGIC ---
     async function loadReviews() {
-        const { data, error } = await _supabase.from('reviews').select('*').eq('product_name', product.name);
+        const { data, error } = await _supabase
+            .from('reviews')
+            .select('*')
+            .eq('product_name', product.name)
+            .order('created_at', { ascending: false });
+
         const container = document.getElementById('reviewsContainer');
         
         if (data && data.length > 0) {
             container.innerHTML = data.map(r => `
                 <div class="review-card">
-                    <small>Verified Buyer</small>
-                    <p>"${r.comment}"</p>
+                    <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                        <span style="color:var(--main-blue); font-weight:bold;">Verified Customer</span>
+                        <span style="color:#666; font-size:12px;">Recently</span>
+                    </div>
+                    <p style="font-style: italic; color:#ddd;">"${r.comment}"</p>
                 </div>
             `).join('');
         } else {
-            container.innerHTML = "No reviews yet. Be the first to share your thoughts!";
+            container.innerHTML = "<div style='padding:20px; border:1px dashed #333; text-align:center;'>No reviews yet. Be the first to review this premium device!</div>";
         }
     }
 
-  async function submitReview() {
-    const selectedItem = JSON.parse(localStorage.getItem("selectedItem"));
-    const ratingValue = document.getElementById('userRating').value;
-    const commentValue = document.getElementById('userComment').value;
+    async function submitReview() {
+        const text = document.getElementById('reviewText').value;
+        if (!text || text.length < 5) { alert("Please share a proper experience."); return; }
 
-    const { error } = await _supabase.from('reviews').insert([{ 
-        product_name: selectedItem.name, 
-        rating: parseInt(ratingValue), 
-        comment: commentValue 
-    }]);
+        const { error } = await _supabase.from('reviews').insert([{ 
+            product_name: product.name, 
+            comment: text 
+        }]);
 
-    if (!error) {
-        alert("Review posted!");
-        location.reload(); // Naya review dikhane ke liye
-    } else {
-        alert("Error: " + error.message);
+        if (!error) {
+            alert("Success! Your review is now live.");
+            document.getElementById('reviewText').value = "";
+            loadReviews();
+        } else {
+            alert("System Busy: " + error.message);
+        }
     }
-}
 </script>
 
 </body>
