@@ -416,31 +416,29 @@ async function placeOrder() {
     }
 }
 
+// Purane submitRepair ko isse badlein
 async function submitRepair(event) {
-    event.preventDefault(); // Page refresh hone se rokne ke liye
+    event.preventDefault();
+    
+    // Form se data uthana
+    const p_problem = document.getElementById('problem').value;
+    const p_name = document.getElementById('rname').value;
+    const p_phone = document.getElementById('rphone').value;
+    const p_email = document.getElementById('remail').value;
 
-    const problem = document.getElementById('problem').value;
-    const name = document.getElementById('rname').value;
-    const phone = document.getElementById('rphone').value;
-    const email = document.getElementById('remail').value;
-
-    const { error } = await _supabase
-        .from('repairs') // Yahan apni repair table ka sahi naam likhein
-        .insert([
-            { 
-                name: name, 
-                phone: phone, 
-                email: email, 
-                problem: problem 
-            }
-        ]);
+    const { error } = await _supabase.from('repairs').insert([{ 
+        name: p_name, 
+        phone: p_phone, 
+        email: p_email, 
+        problem: p_problem 
+    }]);
 
     if (!error) {
         alert("Repair Request Sent Successfully!");
-        document.getElementById('repairForm').reset(); // Form clear kar do
+        event.target.reset(); // Form khali kar dein
     } else {
         console.error(error);
-        alert("Error: Repair request send nahi hui. Table name check karein.");
+        alert("Error: " + error.message);
     }
 }
 

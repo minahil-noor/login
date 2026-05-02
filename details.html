@@ -158,26 +158,22 @@
         }
     }
 
-    async function submitReview() {
-    // फर्ज karein aapne input IDs ye rakhi hain:
-    const pName = document.getElementById('reviewProductName').value;
-    const rate = document.getElementById('reviewRating').value;
-    const msg = document.getElementById('reviewComment').value;
+  async function submitReview() {
+    const selectedItem = JSON.parse(localStorage.getItem("selectedItem"));
+    const ratingValue = document.getElementById('userRating').value;
+    const commentValue = document.getElementById('userComment').value;
 
-    const { error } = await _supabase
-        .from('reviews') // Table name check karein
-        .insert([
-            { 
-                product_name: pName, 
-                rating: parseInt(rate), 
-                comment: msg 
-            }
-        ]);
+    const { error } = await _supabase.from('reviews').insert([{ 
+        product_name: selectedItem.name, 
+        rating: parseInt(ratingValue), 
+        comment: commentValue 
+    }]);
 
     if (!error) {
-        alert("Review Submitted!");
+        alert("Review posted!");
+        location.reload(); // Naya review dikhane ke liye
     } else {
-        alert("Review error: " + error.message);
+        alert("Error: " + error.message);
     }
 }
 </script>
