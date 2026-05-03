@@ -72,53 +72,69 @@
     const _supabase = supabase.createClient('https://cxyxbwsosroeipdjyuuc.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN4eXhid3Nvc3JvZWlwZGp5dXVjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc2MDcxMzQsImV4cCI6MjA5MzE4MzEzNH0.8lI73RmCGGU3jQsiJxnyCMOe1NSaLWqvO3_1FBRZImM');
 
     // 2. LOAD PRODUCT ON PAGE LOAD
-    window.onload = function() {
-        // Index page se data uthana
-        const product = JSON.parse(localStorage.getItem('selectedProduct'));
+   window.onload = function() {
+    // 1. Data retrieve karein
+    const productData = localStorage.getItem('selectedProduct');
+    console.log("LocalStorage Data:", productData); // Debugging ke liye
+
+    if (productData) {
+        const product = JSON.parse(productData);
         
-        if (product) {
-            document.getElementById('productImg').src = product.image;
-            document.getElementById('productTitle').innerText = product.name;
-            document.getElementById('productPrice').innerText = product.price;
-        } else {
-            document.getElementById('productTitle').innerText = "Product Not Found";
-        }
-        loadReviews();
-    };
+        // IDs check karein ke aapke HTML mein yahi hain
+        if(document.getElementById('productImg')) document.getElementById('productImg').src = product.image;
+        if(document.getElementById('productTitle')) document.getElementById('productTitle').innerText = product.name;
+        if(document.getElementById('productPrice')) document.getElementById('productPrice').innerText = product.price;
+        
+        console.log("UI Updated with:", product.name);
+    } else {
+        console.error("Product data nahi mila! Home page check karein.");
+        if(document.getElementById('productTitle')) document.getElementById('productTitle').innerText = "Product Not Found";
+    }
+    
+    if (typeof loadReviews === "function") loadReviews();
+};
 
-    // 3. FIXED ADD TO CART LOGIC
-    async function addToCart() {
-        const title = document.getElementById('productTitle').innerText;
-        const price = document.getElementById('productPrice').innerText;
-        const qty = document.getElementById('qty').value;
-        const btn = document.getElementById('cartBtn');
+async function addToCart() {
+    const title = document.getElementById('productTitle').innerText;
+    const priceText = document.getElementById('productPrice').innerText;
+    const qty = document.getElementById('qty').value;
+    const btn = document.getElementById('cartBtn');
 
-        btn.innerText = "SAVING...";
-        btn.disabled = true;
+    // Price ko number mein convert karein (Clean price)
+    const cleanPrice = parseFloat(priceText.replace(/[^0-9.]/g, ''));
 
-        // Supabase mein order save karna
-        const { error } = await _supabase
+    btn.innerText = "SAVING...";
+    btn.disabled = true;
+
+    try {
+        // 2. Supabase Insert
+        // IMPORTANT: Check karein ke aapki table mein columns 'product_name' aur 'price' hi hain?
+        const { data, error } = await _supabase
             .from('orders')
             .insert([{ 
                 product_name: title, 
-                price: price, 
-                qty: parseInt(qty) 
+                price: cleanPrice, 
+                qty: parseInt(qty),
+                created_at: new Date() 
             }]);
 
-        if (error) {
-            alert("Error: Order not saved! Check table columns.");
-            btn.innerText = "ADD TO CART";
-            btn.disabled = false;
-        } else {
-            alert("Order saved to Database successfully!");
-            btn.innerText = "ADDED ✅";
-            
-            // Local Cart update
-            let cart = JSON.parse(localStorage.getItem('cart')) || [];
-            cart.push({ name: title, price: price, qty: qty });
-            localStorage.setItem('cart', JSON.stringify(cart));
-        }
+        if (error) throw error;
+
+        alert("Order save successfully! ✅");
+        btn.innerText = "ADDED ✅";
+
+        // 3. Local Cart update
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        cart.push({ name: title, price: cleanPrice, qty: qty });
+        localStorage.setItem('cart', JSON.stringify(cart));
+
+    } catch (err) {
+        console.error("Database Error:", err);
+        alert("Backend Error: " + err.message);
+        btn.innerText = "ADD TO CART";
+        btn.disabled = false;
     }
+}
 
     // 4. REVIEWS FETCH & SUBMIT
     async function loadReviews() {

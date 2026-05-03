@@ -235,11 +235,12 @@
     <div style="margin-bottom: 30px;">
         <ul style="list-style: none; display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; padding: 0;">
             <li><a href="#" style="color: #6c63ff; text-decoration: none; font-size: 14px; font-weight: 600;">Home</a></li>
-            <li><a href="#" style="color: #6c63ff; text-decoration: none; font-size: 14px; font-weight: 600;">Shipping Policy</a></li>
-            <li><a href="#" style="color: #6c63ff; text-decoration: none; font-size: 14px; font-weight: 600;">Contact Us</a></li>
-            <li><a href="#" style="color: #6c63ff; text-decoration: none; font-size: 14px; font-weight: 600;">Terms & Conditions</a></li>
+            <li><a href="shipping.html" style="color: #6c63ff; text-decoration: none; font-size: 14px; font-weight: 600;">Shipping Policy</a></li>
+            <li><a href="contact.html" style="color: #6c63ff; text-decoration: none; font-size: 14px; font-weight: 600;">Contact Us</a></li>
+            <li><a href="terms.html" style="color: #6c63ff; text-decoration: none; font-size: 14px; font-weight: 600;">Terms & Conditions</a></li>
         </ul>
     </div>
+
 
     <!-- 3. Social Media Connect (Clickable Icons) -->
     <div style="margin-bottom: 30px; display: flex; justify-content: center; gap: 30px; align-items: center;">
@@ -346,11 +347,17 @@ function showBrand(brandName) {
         items.forEach(p => {
             const card = document.createElement('div');
             card.className = "card";
-            card.onclick = () => {
-                localStorage.setItem("selectedItem", JSON.stringify(p));
-                window.location.href = "details.html";
-            };
-
+           // Inside your home page script
+card.onclick = () => {
+    const productData = { 
+        name: p.name, 
+        price: p.price, 
+        image: p.img 
+    };
+    // This 'selectedProduct' name must match exactly on the next page
+    localStorage.setItem("selectedProduct", JSON.stringify(productData));
+    window.location.href = "details.html"; 
+};
             card.innerHTML = `
                 <img src="${p.img}">
                 <h3>${p.name}</h3>
