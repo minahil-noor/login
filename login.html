@@ -135,22 +135,28 @@
         }
 
         function handleAuth() {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
 
-            if(!email || !password) { 
-                alert("Please fill all fields"); 
-                return; 
-            }
+    if(!email || !password) { 
+        alert("Please fill all fields"); 
+        return; 
+    }
 
-            // Gate Logic: Save login status
-            localStorage.setItem("loggedIn", "true");
-            
-            alert(isLogin ? "Login Successful!" : "Account Created!");
-            
-            // Go to your main store page
-            window.location.href = "index.html"; 
-        }
+    // Save user info for newsletter/orders
+    localStorage.setItem("loggedIn", "true");
+    localStorage.setItem("userEmail", email);
+    
+    if(!isLogin) {
+        // Yahan aap Supabase mein user ka email save bhi karwa sakti hain newsletter ke liye
+        alert("Account Created! You will now receive latest updates at: " + email);
+    } else {
+        alert("Welcome Back!");
+    }
+    
+    // Wapis store par bhej dein
+    window.location.href = "index.html"; 
+}
 
         // Generate Bubbles
         const container = document.getElementById('bubbleContainer');

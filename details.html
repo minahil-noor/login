@@ -1,280 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <!-- Animate.css for smooth entry animations -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium Product Detail | Online Mob Hub</title>
+    <title>Product Details - SmartMob Hub</title>
+    <!-- Poppins Font for professional look -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        :root { 
-            --main-blue: #007bff; 
-            --hover-blue: #0056b3; 
-            --bg: #050505; 
-            --card: #121212; 
-            --glass: rgba(255, 255, 255, 0.05);
-        }
+        :root { --royal-purple: #6c63ff; --soft-white: #ffffff; --text-dark: #333; }
+        body { font-family: 'Poppins', sans-serif; background-color: var(--soft-white); margin: 0; color: var(--text-dark); }
         
-        * { margin:0; padding:0; box-sizing:border-box; font-family: 'Poppins', sans-serif; }
-        body { background: var(--bg); color: #fff; overflow-x: hidden; }
-
-        /* Background Gradient Animation */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at 50% 50%, #001f3f 0%, #050505 100%);
-            z-index: -1;
-        }
-
-        .container { 
-            max-width: 1200px; 
-            margin: 60px auto; 
-            padding: 20px; 
-            display: flex; 
-            flex-wrap: wrap; 
-            gap: 50px;
-            animation: fadeIn 1s ease-in;
-        }
-
-        /* Premium Image Card with Floating Animation */
-        .image-container { 
-            flex: 1; 
-            min-width: 350px; 
-            background: var(--glass);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 30px; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            padding: 40px; 
-            min-height: 500px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-        }
-
-        .image-container img { 
-            max-width: 100%; 
-            height: auto; 
-            filter: drop-shadow(0 20px 30px rgba(0,0,0,0.8));
-            animation: float 4s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-
-        /* Content Styling */
-        .details-container { flex: 1; min-width: 300px; }
-        h1 { font-size: 42px; font-weight: 800; margin-bottom: 10px; background: linear-gradient(to right, #fff, var(--main-blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .price { font-size: 30px; font-weight: 300; margin-bottom: 25px; color: #00d4ff; letter-spacing: 1px; }
-
-        .description-box { 
-            background: var(--card); 
-            padding: 25px; 
-            border-radius: 20px; 
-            border: 1px solid #222;
-            transition: 0.3s;
-        }
-        .description-box:hover { border-color: var(--main-blue); box-shadow: 0 10px 30px rgba(0,123,255,0.1); }
+        .container { max-width: 1200px; margin: 50px auto; padding: 20px; display: flex; gap: 50px; flex-wrap: wrap; }
         
-        .pros { list-style: none; margin-top: 20px; }
-        .pros li { margin-bottom: 12px; color: #aaa; font-size: 15px; display: flex; align-items: center; }
-        .pros li::before { content: '✓'; color: var(--main-blue); margin-right: 15px; font-weight: bold; }
+        /* Product Image Section */
+        .product-image-container { flex: 1; min-width: 300px; text-align: center; }
+        .main-img { width: 100%; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
 
-        /* Buttons with Shine Animation */
-        .action-btns { display: flex; flex-direction: column; gap: 20px; margin-top: 40px; }
-        .btn { 
-            width: 100%; 
-            padding: 18px; 
-            border-radius: 12px; 
-            font-size: 16px; 
-            font-weight: bold; 
-            cursor: pointer; 
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-            text-transform: uppercase;
-            position: relative;
-            overflow: hidden;
-        }
+        /* Product Info Section */
+        .product-info { flex: 1; min-width: 300px; }
+        .breadcrumb { font-size: 12px; color: #888; text-transform: uppercase; margin-bottom: 10px; }
+        .product-title { font-size: 32px; font-weight: 600; margin-bottom: 15px; color: var(--text-dark); }
+        .price-tag { font-size: 24px; color: var(--royal-purple); font-weight: 600; margin-bottom: 20px; }
+        .description { line-height: 1.6; color: #666; margin-bottom: 30px; }
 
-        .btn-add { background: transparent; border: 2px solid var(--main-blue); color: #fff; }
-        .btn-add:hover { background: var(--main-blue); transform: scale(1.02); }
-        
-        .btn-buy { 
-            background: var(--main-blue); 
-            color: #fff; 
-            border: none;
-            box-shadow: 0 10px 20px rgba(0,123,255,0.3);
-        }
-        .btn-buy:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,123,255,0.5); }
+        /* Add to Cart Area */
+        .cart-action { display: flex; gap: 15px; align-items: center; margin-bottom: 40px; }
+        .quantity-btn { border: 1px solid #ddd; padding: 10px 15px; background: white; cursor: pointer; border-radius: 5px; }
+        .add-to-cart-btn { background: var(--royal-purple); color: white; padding: 15px 40px; border: none; border-radius: 5px; font-weight: 600; cursor: pointer; transition: 0.3s; flex-grow: 1; }
+        .add-to-cart-btn:hover { background: #554bc3; transform: translateY(-2px); }
 
-        /* Reviews Glassmorphism */
-        .review-section { 
-            max-width: 1200px; 
-            margin: 60px auto; 
-            padding: 30px; 
-            background: var(--glass);
-            backdrop-filter: blur(15px);
-            border-radius: 30px; 
-            border: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .review-card { 
-            background: rgba(255,255,255,0.03); 
-            padding: 20px; 
-            border-radius: 15px; 
-            margin-bottom: 20px; 
-            border-left: 5px solid var(--main-blue);
-            transition: 0.3s;
-        }
-        .review-card:hover { background: rgba(255,255,255,0.07); transform: translateX(10px); }
-
-        textarea { 
-            width: 100%; padding: 20px; border-radius: 15px; 
-            background: #000; color: #fff; border: 1px solid #333; 
-            margin: 20px 0; min-height: 120px; outline: none;
-        }
-        textarea:focus { border-color: var(--main-blue); }
-
-        @media (min-width: 768px) { .action-btns { flex-direction: row; } .btn { width: 50%; } }
+        /* Reviews Section */
+        .reviews-container { width: 100%; margin-top: 50px; border-top: 1px solid #eee; padding-top: 40px; }
+        .review-flex { display: flex; gap: 40px; flex-wrap: wrap; }
+        .existing-reviews { flex: 2; }
+        .add-review-box { flex: 1; border: 2px solid var(--royal-purple); padding: 25px; border-radius: 10px; }
+        input, textarea { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
     </style>
 </head>
 <body>
 
-<div class="container animate__animated animate__fadeIn">
-    <!-- Image with floating effect -->
-    <div class="image-container" id="displayImg"></div>
-    
-    <div class="details-container">
-        <h1 id="displayName" class="animate__animated animate__slideInRight">Product Name</h1>
-        <div class="price" id="displayPrice">PKR 0</div>
-        
-        <div class="description-box animate__animated animate__fadeInUp">
-            <h3 style="color: var(--main-blue); margin-bottom: 10px;">The Online Mob Hub Standard</h3>
-            <p style="color: #eee;">Experience the pinnacle of mobile technology with our handpicked premium selection. Every device undergoes a 20-point quality check.</p>
-            <ul class="pros">
-                <li>PTA Approved & Official Warranty</li>
-                <li>Next-Day Delivery in Major Cities</li>
-                <li>Premium After-Sales Support</li>
-            </ul>
-        </div>
+<div class="container">
+    <!-- Image Box -->
+    <div class="product-image-container">
+        <img id="productImg" src="placeholder.jpg" alt="Product" class="main-img">
+    </div>
 
-        <div class="action-btns">
-            <!-- addToCart function now handles BOTH Local and Backend -->
-            <button class="btn btn-add" onclick="addToCart(false)">Add to Cart</button>
-            <button class="btn btn-buy" onclick="addToCart(true)">Checkout Now</button>
+    <!-- Info Box -->
+    <div class="product-info">
+        <div class="breadcrumb">Home / Mobile Accessories</div>
+        <h1 id="productTitle" class="product-title">Premium Smartphone</h1>
+        <div class="price-tag">Rs <span id="productPrice">0</span></div>
+        <p class="description">
+            High-quality mobile accessory designed for durability and high-energy performance. 
+            Perfectly fits your modern lifestyle.
+        </p>
+        
+        <div class="cart-action">
+            <input type="number" id="qty" value="1" min="1" style="width: 60px; text-align: center;">
+            <button class="add-to-cart-btn" onclick="addToCart()">ADD TO CART</button>
         </div>
     </div>
-</div>
 
-<div class="review-section animate__animated animate__fadeInUp">
-    <h2 style="margin-bottom: 20px;">What Our Clients Say</h2>
-    <div id="reviewsContainer" style="margin-bottom:30px; color: #ccc;">Checking for reviews...</div>
+    <!-- Reviews Section -->
+    <!-- Reviews Section -->
+<div class="reviews-container" style="margin-top: 50px; border-top: 1px solid #eee; padding-top: 40px;">
+    <h2 id="reviewCount" style="color: var(--text-dark); margin-bottom: 30px;">0 Reviews</h2>
     
-    <div style="background: rgba(0,0,0,0.3); padding: 25px; border-radius: 20px;">
-        <h3>Leave a Review</h3>
-        <textarea id="reviewText" placeholder="Share your premium experience..."></textarea>
-        <button class="btn btn-buy" style="width: auto; padding: 12px 40px; border-radius: 30px;" onclick="submitReview()">Post Review</button>
+    <div class="review-flex" style="display: flex; gap: 40px; flex-wrap: wrap;">
+        
+        <!-- Left Side: Existing Reviews List (As per image_5c341e.png) -->
+        <div id="reviewsList" style="flex: 2; min-width: 300px;">
+            <p style="color: #888;">Loading reviews...</p>
+        </div>
+        
+        <!-- Right Side: Add a Review Box (Royal Purple Theme) -->
+        <div class="add-review-box" style="flex: 1; min-width: 300px; border: 2px solid #6c63ff; padding: 25px; border-radius: 10px; background: #fff;">
+            <h3 style="margin-top: 0; color: #6c63ff;">Add a review</h3>
+            <p style="font-size: 13px; color: #666;">Your email address will not be published. Required fields are marked *</p>
+            
+            <label style="font-size: 14px; font-weight: 600;">Your rating *</label>
+            <div style="color: #ddd; font-size: 20px; margin: 10px 0;">★★★★★</div>
+
+            <label style="font-size: 14px; font-weight: 600;">Your review *</label>
+            <textarea id="revText" rows="5" style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px;"></textarea>
+            
+            <label style="font-size: 14px; font-weight: 600;">Name *</label>
+            <input type="text" id="revName" style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px;">
+            
+            <label style="font-size: 14px; font-weight: 600;">Email *</label>
+            <input type="email" id="revEmail" style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px;">
+            
+            <button class="add-to-cart-btn" onclick="submitReview()" style="background: #6c63ff; color: white; width: 100%; padding: 15px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; margin-top: 10px;">
+                SUBMIT REVIEW
+            </button>
+        </div>
     </div>
 </div>
 
 <script>
-    // Supabase Configuration
-    const supabaseUrl = 'https://cxyxbwsosroeipdjyuuc.supabase.co';
-    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN4eXhid3Nvc3JvZWlwZGp5dXVjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc2MDcxMzQsImV4cCI6MjA5MzE4MzEzNH0.8lI73RmCGGU3jQsiJxnyCMOe1NSaLWqvO3_1FBRZImM';
-    const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
-
-    // Get selected product from LocalStorage
-    const product = JSON.parse(localStorage.getItem("selectedItem"));
-
-    if (product) {
-        document.getElementById('displayName').innerText = product.name;
-        document.getElementById('displayPrice').innerText = "PKR " + product.price.toLocaleString();
-        document.getElementById('displayImg').innerHTML = `<img src="${product.img}" alt="${product.name}" class="animate__animated animate__zoomIn">`;
-        loadReviews();
-    } else {
-        document.body.innerHTML = "<div style='text-align:center; padding:100px;'><h2>Product Not Found</h2><a href='index.html' style='color:var(--main-blue)'>Return to Home</a></div>";
-    }
-
-    // --- CRITICAL BACKEND + LOCAL STORAGE LOGIC ---
-    async function addToCart(isCheckout) {
-        if (!product) return;
-
-        // 1. SAVE TO BACKEND (Supabase)
-        // Hum 'orders' table ko track kar rahe hain ke feature page se kitni activity ho rahi hai
-        const { error: backendError } = await _supabase.from('orders').insert([{ 
-            customer_name: "Feature Page Activity", 
-            items: product.name, 
-            total: product.price,
-            status: 'Interested', // This marks it as a cart activity in your admin panel
-            phone: 'Pending Action'
-        }]);
-
-        if (backendError) console.error("Database Save Error:", backendError.message);
-
-        // 2. SAVE TO LOCAL STORAGE (Browser)
-        let cart = JSON.parse(localStorage.getItem("cart")) || [];
-        const existing = cart.find(item => item.name === product.name);
-        if (existing) {
-            existing.qty += 1;
-        } else {
-            cart.push({ name: product.name, price: product.price, image: product.img, qty: 1 });
-        }
-        localStorage.setItem("cart", JSON.stringify(cart));
-
-        // 3. UI RESPONSE
-        if (isCheckout) {
-            window.location.href = "checkout.html";
-        } else {
-            // Sweet notification style
-            alert("✨ " + product.name + " has been added to your cart and recorded in our database!");
-        }
-    }
-
-    // --- REVIEWS LOGIC ---
+    // 1. Fetch Reviews from Supabase on Page Load
     async function loadReviews() {
-        const { data, error } = await _supabase
+        const { data: reviews, error } = await _supabase
             .from('reviews')
             .select('*')
-            .eq('product_name', product.name)
             .order('created_at', { ascending: false });
 
-        const container = document.getElementById('reviewsContainer');
+        if (error) {
+            console.log("Error loading reviews", error);
+            return;
+        }
+
+        const reviewsList = document.getElementById('reviewsList');
+        const reviewCount = document.getElementById('reviewCount');
         
-        if (data && data.length > 0) {
-            container.innerHTML = data.map(r => `
-                <div class="review-card">
-                    <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
-                        <span style="color:var(--main-blue); font-weight:bold;">Verified Customer</span>
-                        <span style="color:#666; font-size:12px;">Recently</span>
-                    </div>
-                    <p style="font-style: italic; color:#ddd;">"${r.comment}"</p>
+        reviewCount.innerText = `${reviews.length} reviews for this product`;
+        
+        if (reviews.length === 0) {
+            reviewsList.innerHTML = "<p>No reviews yet. Be the first to review!</p>";
+            return;
+        }
+
+        reviewsList.innerHTML = reviews.map(rev => `
+            <div style="margin-bottom: 30px; border-bottom: 1px dashed #ddd; padding-bottom: 20px; display: flex; gap: 15px;">
+                <div style="width: 50px; height: 50px; background: #eee; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; color: #aaa;">👤</div>
+                <div>
+                    <div style="color: #fbc02d;">★★★★★</div>
+                    <strong style="color: #333;">${rev.name}</strong> 
+                    <span style="color: #999; font-size: 12px;">– ${new Date(rev.created_at).toLocaleDateString()}</span>
+                    <p style="margin: 10px 0; color: #555; font-style: italic;">"${rev.review_text}"</p>
                 </div>
-            `).join('');
-        } else {
-            container.innerHTML = "<div style='padding:20px; border:1px dashed #333; text-align:center;'>No reviews yet. Be the first to review this premium device!</div>";
-        }
+            </div>
+        `).join('');
     }
 
+    // 2. Submit Review to Supabase
     async function submitReview() {
-        const text = document.getElementById('reviewText').value;
-        if (!text || text.length < 5) { alert("Please share a proper experience."); return; }
+        const name = document.getElementById('revName').value;
+        const text = document.getElementById('revText').value;
+        const email = document.getElementById('revEmail').value;
 
-        const { error } = await _supabase.from('reviews').insert([{ 
-            product_name: product.name, 
-            comment: text 
-        }]);
+        if (!name || !text || !email) {
+            alert("Please fill all fields!");
+            return;
+        }
 
-        if (!error) {
-            alert("Success! Your review is now live.");
-            document.getElementById('reviewText').value = "";
-            loadReviews();
+        const { error } = await _supabase
+            .from('reviews')
+            .insert([{ name: name, review_text: text, email: email }]);
+
+        if (error) {
+            alert("Error saving review!");
         } else {
-            alert("System Busy: " + error.message);
+            alert("Review posted successfully!");
+            location.reload(); // Page reload karke naya review dikhayenge
         }
     }
+
+    // Page load hote hi reviews dikhao
+    window.onload = loadReviews;
+</script>
 </script>
 
 </body>

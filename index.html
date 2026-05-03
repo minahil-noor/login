@@ -128,21 +128,30 @@
 }
     </style>
 </head>
-<div class="chat-widget-btn" onclick="toggleIndexChat()">💬</div>
+<!-- Floating WhatsApp Button -->
+<a href="https://wa.me/923024209592" class="whatsapp-float" target="_blank">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+</a>
 
-<div class="chat-window" id="indexChatWindow">
-    <div class="chat-header">
-        <span>Mob Hub Support</span>
-        <span style="cursor:pointer" onclick="toggleIndexChat()">×</span>
-    </div>
-    <div class="chat-messages" id="indexChatMsgs">
-        <div class="msg msg-bot">Welcome to Online Mob Hub! How can we help you today?</div>
-    </div>
-    <div class="chat-input-area">
-        <input type="text" id="indexUserInput" placeholder="Type a message...">
-        <button onclick="sendIndexMessage()" style="background:none; border:none; color:#007bff; font-weight:bold; cursor:pointer;">Send</button>
-    </div>
-</div>
+<style>
+.whatsapp-float {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    width: 60px;
+    height: 60px;
+    background-color: #25d366;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    z-index: 1000;
+    transition: 0.3s;
+}
+.whatsapp-float:hover { transform: scale(1.1); }
+.whatsapp-float img { width: 35px; height: 35px; }
+</style>
 
     <body>
 <header>
@@ -194,35 +203,64 @@
     </form>
 </section>
 
-<section class="section" id="contact">
-<h2>Contact Us</h2>
+<!-- Footer Section - SmartMob Hub Theme -->
+<footer style="background-color: #fff; color: #333; padding: 60px 20px 20px; text-align: center; border-top: 1px solid #eee;">
+    
+    <!-- 1. Features Grid (Purple Boxes) -->
+    <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 50px; max-width: 1200px; margin-left: auto; margin-right: auto;">
+        
+        <!-- Box 1 -->
+        <div style="background: #6c63ff; color: #fff; padding: 40px 20px; border-radius: 12px; width: 330px; min-height: 250px; box-shadow: 0 10px 20px rgba(108, 99, 255, 0.2);">
+            <div style="font-size: 50px; margin-bottom: 20px;">📱</div>
+            <h3 style="font-weight: 600; margin-bottom: 15px; text-transform: uppercase;">Premium Mobile Store</h3>
+            <p style="font-size: 14px; line-height: 1.6; opacity: 0.9;">Explore the latest smartphones from top global brands with official warranties and genuine quality.</p>
+        </div>
 
-<div style="display:flex; justify-content:center; gap:25px; font-size:30px;">
+        <!-- Box 2 -->
+        <div style="background: #6c63ff; color: #fff; padding: 40px 20px; border-radius: 12px; width: 330px; min-height: 250px; box-shadow: 0 10px 20px rgba(108, 99, 255, 0.2);">
+            <div style="font-size: 50px; margin-bottom: 20px;">🛠️</div>
+            <h3 style="font-weight: 600; margin-bottom: 15px; text-transform: uppercase;">Expert Repair Services</h3>
+            <p style="font-size: 14px; line-height: 1.6; opacity: 0.9;">Professional hardware and software solutions for all smartphone models using high-quality parts.</p>
+        </div>
 
-<a href="mailto:minahil27mano@gmail.com" title="Email">
-📧
-</a>
+        <!-- Box 3 -->
+        <div style="background: #6c63ff; color: #fff; padding: 40px 20px; border-radius: 12px; width: 330px; min-height: 250px; box-shadow: 0 10px 20px rgba(108, 99, 255, 0.2);">
+            <div style="font-size: 50px; margin-bottom: 20px;">🎧</div>
+            <h3 style="font-weight: 600; margin-bottom: 15px; text-transform: uppercase;">Luxury Accessories</h3>
+            <p style="font-size: 14px; line-height: 1.6; opacity: 0.9;">Find high-energy, modern designs in mobile covers, chargers, and premium gadgets to level up your style.</p>
+        </div>
+    </div>
 
-<a href="https://wa.me/923024209592" target="_blank" title="WhatsApp">
-📱
-</a>
+    <!-- 2. Navigation Links -->
+    <div style="margin-bottom: 30px;">
+        <ul style="list-style: none; display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; padding: 0;">
+            <li><a href="#" style="color: #6c63ff; text-decoration: none; font-size: 14px; font-weight: 600;">Home</a></li>
+            <li><a href="#" style="color: #6c63ff; text-decoration: none; font-size: 14px; font-weight: 600;">Shipping Policy</a></li>
+            <li><a href="#" style="color: #6c63ff; text-decoration: none; font-size: 14px; font-weight: 600;">Contact Us</a></li>
+            <li><a href="#" style="color: #6c63ff; text-decoration: none; font-size: 14px; font-weight: 600;">Terms & Conditions</a></li>
+        </ul>
+    </div>
 
-<a href="https://instagram.com/onlinemobhub/" target="_blank" title="Instagram">
-📸
-</a>
+    <!-- 3. Social Media Connect (Clickable Icons) -->
+    <div style="margin-bottom: 30px; display: flex; justify-content: center; gap: 30px; align-items: center;">
+        <a href="https://facebook.com/SmartMobHub" target="_blank" title="Follow us on Facebook">
+            <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook" style="width: 26px; filter: grayscale(1); opacity: 0.6;">
+        </a>
+        <a href="https://instagram.com/SmartMobHub" target="_blank" title="Follow us on Instagram">
+            <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram" style="width: 26px; filter: grayscale(1); opacity: 0.6;">
+        </a>
+    </div>
 
-<a href="https://www.facebook.com/onlinemobhub/" target="_blank" title="Facebook">
-📘
-</a>
+    <hr style="border: 0; border-top: 1px solid #eee; width: 85%; margin: 0 auto 40px;">
 
-</div>
-</section>
+    <!-- 4. Branding & Rights -->
+    <div style="padding-bottom: 20px;">
+        <h2 style="color: #6c63ff; letter-spacing: 3px; font-weight: bold; margin: 0; text-transform: uppercase;">SmartMob Hub</h2>
+        <p style="font-size: 12px; color: #aaa; margin-top: 15px; letter-spacing: 1px;">
+            © 2026 SMARTMOB HUB. ALL RIGHTS RESERVED.
+        </p>
+    </div>
 
-<footer>
-    © SmartMob Hub | Follow us: 
-    <a href="https://wa.me/923024209592" target="_blank">WhatsApp</a>
-    <a href="https://instagram.com/onlinemobhub/" target="_blank">Instagram</a>
-    <a href="https://www.facebook.com/onlinemobhub/" target="_blank">Facebook</a>
 </footer>
 
 <div class="drawer" id="cartDrawer">
@@ -238,28 +276,20 @@
 
 <script>
 
-  window.onload = () => {
+window.onload = () => {
+    // Ab page block nahi hoga, seedha khulega
+    document.body.style.display = "block";
+    
     const isLoggedIn = localStorage.getItem("loggedIn");
-    const userEmail = localStorage.getItem("userEmail"); // Login ke waqt email save karna hoga
+    const userEmail = localStorage.getItem("userEmail");
 
-    if(isLoggedIn !== "true") {
-        window.location.href = "login.html";
-    } else {
-        document.body.style.display = "block";
-        
-        // AGAR EMAIL OWNER KA HAI (Maslan: admin@hub.com)
-        if(userEmail === "minahil27mano@gmail.com") { 
-            document.getElementById('adminLink').style.display = "inline-block";
-        }
-        
-        updateCartUI();
+    // Admin link sirf owner ke liye
+    if(isLoggedIn === "true" && userEmail === "minahil27mano@gmail.com") { 
+        document.getElementById('adminLink').style.display = "inline-block";
     }
+    
+    updateCartUI();
 };
-
-    function logout() {
-        localStorage.removeItem("loggedIn");
-        window.location.href = "login.html";
-    }
     let cart = [];
 const data = {
     samsung: [
@@ -273,7 +303,7 @@ const data = {
         {name:'Software Repair', price:1200, img:'https://in-exstatic-vivofs.vivo.com/gdHFRinHEMrj3yPG/20181022/ac21012b5c96b43f53530d67739d5f93.png'}
     ],
     oppo: [
-        {name:'Screen Replacement', price:4500, img:'https://image-cdn.ubuy.com/a-mind-for-oppo-reno4-z-5g-cph2065/400_400_100/693c3d0b66ce3176610900bd.jpg'},
+        {name:'Screen Replacement', price:4500, img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBvGQ-0WsI_dGzTKQBB6FlqGG8AcdwEizfKA&s'},
         {name:'Battery Replacement', price:2800, img:'https://guide-images.cdn.ifixit.com/igi/fJosOBMZyqiZDtEc.medium'},
         {name:'Software Repair', price:2000, img:'https://www.oppo.com/content/dam/oppo/event-page-asset/rom/image/en/bgimg.png'}
     ],
@@ -386,33 +416,41 @@ function removeItem(index) {
 }
 
 async function placeOrder() {
+    // 1. Check karein ke user login hai ya nahi
+    const isLoggedIn = localStorage.getItem("loggedIn");
+    if (isLoggedIn !== "true") {
+        alert("Please Login or Sign Up to place your order!");
+        window.location.href = "login.html"; // Login par bhej dein
+        return;
+    }
+
     const name = document.getElementById('name').value;
     const phone = document.getElementById('phone').value;
     const address = document.getElementById('address').value;
     const method = document.getElementById('method').value;
 
     if (!name || !phone || cart.length === 0) {
-        alert("Please complete all required fields before placing your order!");
+        alert("Please complete all required fields!");
         return;
     }
 
+    // Order save karna
     const { error } = await _supabase.from('orders').insert([{ 
         customer_name: name, 
         phone: phone, 
         address: address, 
         payment_method: method,
         items: JSON.stringify(cart),
-
         total: cart.reduce((a, i) => a + (i.price * i.qty), 0) 
     }]);
 
     if (!error) {
-        alert("Order Successful!");
+        alert("Order Successful! We will contact you soon.");
         cart = [];
         localStorage.removeItem("cart");
         location.reload();
     } else {
-        alert("Error: Table connection check karein.");
+        alert("Error connecting to database.");
     }
 }
 
