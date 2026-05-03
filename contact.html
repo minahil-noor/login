@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - SmartMob Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <style>
+        :root { --royal-purple: #6c63ff; --text-dark: #2d3436; }
+        body { font-family: 'Poppins', sans-serif; background: #ffffff; margin: 0; padding: 20px; color: var(--text-dark); }
+        .container { max-width: 1150px; margin: 60px auto; display: flex; gap: 60px; flex-wrap: wrap; }
+        .info-section { flex: 1; min-width: 320px; }
+        .form-section { flex: 1.5; min-width: 320px; }
+        h2 { text-transform: uppercase; border-bottom: 2px solid #f0f0f0; padding-bottom: 12px; margin-bottom: 35px; font-size: 22px; color: var(--royal-purple); letter-spacing: 1px; }
+        .detail-item { margin-bottom: 25px; line-height: 1.8; }
+        .detail-item b { display: block; color: #000; font-size: 15px; margin-bottom: 4px; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
+        .full-width { grid-column: span 2; }
+        label { font-size: 13px; font-weight: 600; display: block; margin-bottom: 8px; color: #636e72; }
+        input, textarea { width: 100%; padding: 14px; border: 1px solid #dfe6e9; border-radius: 6px; box-sizing: border-box; background: #fafafa; font-family: inherit; transition: 0.3s; }
+        input:focus, textarea:focus { border-color: var(--royal-purple); outline: none; background: #fff; box-shadow: 0 0 10px rgba(108, 99, 255, 0.1); }
+        .submit-btn { background: var(--royal-purple); color: white; border: none; padding: 16px 40px; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 25px; transition: 0.4s; letter-spacing: 1px; }
+        .submit-btn:hover { background: #4834d4; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(108, 99, 255, 0.2); }
+        .wa-float { position: fixed; bottom: 30px; right: 30px; background: #25d366; color: white; width: 65px; height: 65px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 32px; box-shadow: 0 6px 20px rgba(0,0,0,0.15); text-decoration: none; z-index: 1000; transition: 0.3s; }
+        .wa-float:hover { transform: scale(1.1); }
+    </style>
+</head>
+<body>
+
+<div class="container animate__animated animate__fadeIn">
+    <!-- Corporate Identity Section -->
+    <div class="info-section">
+        <h2>Address</h2>
+        <div class="detail-item">
+            <b>OFFICE ADDRESS:</b>
+            Sultan Mobile Center, Opposite Guard Rice Factory,<br>
+            Main Raiwind Road, Bhobtian Chock, Lahore.
+        </div>
+        <div class="detail-item">
+            <b>DIRECT LINE:</b>
+            03024209592
+        </div>
+        <div class="detail-item">
+            <b>EMAIL ENQUIRIES:</b>
+            minahil27mano@gmail.com
+        </div>
+    </div>
+
+    <!-- Communication Hub -->
+    <div class="form-section">
+        <h2>Send Us An Email</h2>
+        <form id="contact-form">
+            <div class="form-grid">
+                <div>
+                    <label>Your Name (required)</label>
+                    <input type="text" name="user_name" required placeholder="Full Name">
+                </div>
+                <div>
+                    <label>Your Phone Number (required)</label>
+                    <input type="text" name="user_phone" required placeholder="03XXXXXXXXX">
+                </div>
+                <div class="full-width">
+                    <label>Your Email (required)</label>
+                    <input type="email" name="user_email" required placeholder="email@example.com">
+                </div>
+                <div class="full-width">
+                    <label>Your Message (required)</label>
+                    <textarea name="message" rows="5" required placeholder="How can our tech experts help you?"></textarea>
+                </div>
+            </div>
+            <button type="submit" class="submit-btn">SEND MESSAGE</button>
+        </form>
+    </div>
+</div>
+
+<!-- Instant WhatsApp Access -->
+<a href="https://wa.me/923024209592" class="wa-float" target="_blank">💬</a>
+
+<script>
+    (function() { emailjs.init("J1PETLsO5WQWg0EfF"); })();
+
+    document.getElementById('contact-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const btn = this.querySelector('button');
+        btn.innerText = 'PROCESSING...';
+
+        emailjs.sendForm('service_kle6hpm', 'template_3few6tf', this)
+            .then(() => {
+                alert('Thank you! Your message has been transmitted successfully.');
+                btn.innerText = 'SEND MESSAGE';
+                this.reset();
+            }, (error) => {
+                alert('Communication failed. Please utilize the WhatsApp link for immediate assistance.');
+                btn.innerText = 'SEND MESSAGE';
+            });
+    });
+</script>
+
+</body>
+</html>

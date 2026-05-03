@@ -4,51 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Details - SmartMob Hub</title>
-    <!-- Poppins Font for professional look -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root { --royal-purple: #6c63ff; --soft-white: #ffffff; --text-dark: #333; }
         body { font-family: 'Poppins', sans-serif; background-color: var(--soft-white); margin: 0; color: var(--text-dark); }
-        
         .container { max-width: 1200px; margin: 50px auto; padding: 20px; display: flex; gap: 50px; flex-wrap: wrap; }
-        
-        /* Product Image Section */
         .product-image-container { flex: 1; min-width: 300px; text-align: center; }
         .main-img { width: 100%; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-
-        /* Product Info Section */
         .product-info { flex: 1; min-width: 300px; }
         .breadcrumb { font-size: 12px; color: #888; text-transform: uppercase; margin-bottom: 10px; }
         .product-title { font-size: 32px; font-weight: 600; margin-bottom: 15px; color: var(--text-dark); }
         .price-tag { font-size: 24px; color: var(--royal-purple); font-weight: 600; margin-bottom: 20px; }
         .description { line-height: 1.6; color: #666; margin-bottom: 30px; }
-
-        /* Add to Cart Area */
         .cart-action { display: flex; gap: 15px; align-items: center; margin-bottom: 40px; }
-        .quantity-btn { border: 1px solid #ddd; padding: 10px 15px; background: white; cursor: pointer; border-radius: 5px; }
         .add-to-cart-btn { background: var(--royal-purple); color: white; padding: 15px 40px; border: none; border-radius: 5px; font-weight: 600; cursor: pointer; transition: 0.3s; flex-grow: 1; }
         .add-to-cart-btn:hover { background: #554bc3; transform: translateY(-2px); }
-
-        /* Reviews Section */
         .reviews-container { width: 100%; margin-top: 50px; border-top: 1px solid #eee; padding-top: 40px; }
         .review-flex { display: flex; gap: 40px; flex-wrap: wrap; }
-        .existing-reviews { flex: 2; }
-        .add-review-box { flex: 1; border: 2px solid var(--royal-purple); padding: 25px; border-radius: 10px; }
+        .add-review-box { flex: 1; border: 2px solid var(--royal-purple); padding: 25px; border-radius: 10px; background: #fff; }
         input, textarea { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <!-- Image Box -->
     <div class="product-image-container">
-        <img id="productImg" src="placeholder.jpg" alt="Product" class="main-img">
+        <!-- Broken image placeholder fixed by logic -->
+        <img id="productImg" src="" alt="Product Image" class="main-img">
     </div>
 
-    <!-- Info Box -->
     <div class="product-info">
         <div class="breadcrumb">Home / Mobile Accessories</div>
-        <h1 id="productTitle" class="product-title">Premium Smartphone</h1>
+        <h1 id="productTitle" class="product-title">Loading...</h1>
         <div class="price-tag">Rs <span id="productPrice">0</span></div>
         <p class="description">
             High-quality mobile accessory designed for durability and high-energy performance. 
@@ -56,109 +43,110 @@
         </p>
         
         <div class="cart-action">
-            <input type="number" id="qty" value="1" min="1" style="width: 60px; text-align: center;">
-            <button class="add-to-cart-btn" onclick="addToCart()">ADD TO CART</button>
+            <input type="number" id="qty" value="1" min="1" style="width: 60px; text-align: center; height: 45px; border-radius: 5px; border: 1px solid #ddd;">
+            <button id="cartBtn" class="add-to-cart-btn" onclick="addToCart()">ADD TO CART</button>
         </div>
     </div>
 
-    <!-- Reviews Section -->
-    <!-- Reviews Section -->
-<div class="reviews-container" style="margin-top: 50px; border-top: 1px solid #eee; padding-top: 40px;">
-    <h2 id="reviewCount" style="color: var(--text-dark); margin-bottom: 30px;">0 Reviews</h2>
-    
-    <div class="review-flex" style="display: flex; gap: 40px; flex-wrap: wrap;">
-        
-        <!-- Left Side: Existing Reviews List (As per image_5c341e.png) -->
-        <div id="reviewsList" style="flex: 2; min-width: 300px;">
-            <p style="color: #888;">Loading reviews...</p>
-        </div>
-        
-        <!-- Right Side: Add a Review Box (Royal Purple Theme) -->
-        <div class="add-review-box" style="flex: 1; min-width: 300px; border: 2px solid #6c63ff; padding: 25px; border-radius: 10px; background: #fff;">
-            <h3 style="margin-top: 0; color: #6c63ff;">Add a review</h3>
-            <p style="font-size: 13px; color: #666;">Your email address will not be published. Required fields are marked *</p>
+    <div class="reviews-container">
+        <h2 id="reviewCount">0 Reviews</h2>
+        <div class="review-flex">
+            <div id="reviewsList" style="flex: 2; min-width: 300px;">
+                <p style="color: #888;">Loading reviews...</p>
+            </div>
             
-            <label style="font-size: 14px; font-weight: 600;">Your rating *</label>
-            <div style="color: #ddd; font-size: 20px; margin: 10px 0;">★★★★★</div>
-
-            <label style="font-size: 14px; font-weight: 600;">Your review *</label>
-            <textarea id="revText" rows="5" style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px;"></textarea>
-            
-            <label style="font-size: 14px; font-weight: 600;">Name *</label>
-            <input type="text" id="revName" style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px;">
-            
-            <label style="font-size: 14px; font-weight: 600;">Email *</label>
-            <input type="email" id="revEmail" style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px;">
-            
-            <button class="add-to-cart-btn" onclick="submitReview()" style="background: #6c63ff; color: white; width: 100%; padding: 15px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; margin-top: 10px;">
-                SUBMIT REVIEW
-            </button>
+            <div class="add-review-box">
+                <h3 style="margin-top: 0; color: #6c63ff;">Add a review</h3>
+                <input type="text" id="revName" placeholder="Your Name *">
+                <input type="email" id="revEmail" placeholder="Your Email *">
+                <textarea id="revText" rows="5" placeholder="Your Review *"></textarea>
+                <button class="add-to-cart-btn" onclick="submitReview()">SUBMIT REVIEW</button>
+            </div>
         </div>
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-    // 1. Fetch Reviews from Supabase on Page Load
-    async function loadReviews() {
-        const { data: reviews, error } = await _supabase
-            .from('reviews')
-            .select('*')
-            .order('created_at', { ascending: false });
+    // 1. DYNAMIC CONNECTION
+    const _supabase = supabase.createClient('https://cxyxbwsosroeipdjyuuc.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN4eXhid3Nvc3JvZWlwZGp5dXVjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc2MDcxMzQsImV4cCI6MjA5MzE4MzEzNH0.8lI73RmCGGU3jQsiJxnyCMOe1NSaLWqvO3_1FBRZImM');
+
+    // 2. LOAD PRODUCT ON PAGE LOAD
+    window.onload = function() {
+        // Index page se data uthana
+        const product = JSON.parse(localStorage.getItem('selectedProduct'));
+        
+        if (product) {
+            document.getElementById('productImg').src = product.image;
+            document.getElementById('productTitle').innerText = product.name;
+            document.getElementById('productPrice').innerText = product.price;
+        } else {
+            document.getElementById('productTitle').innerText = "Product Not Found";
+        }
+        loadReviews();
+    };
+
+    // 3. FIXED ADD TO CART LOGIC
+    async function addToCart() {
+        const title = document.getElementById('productTitle').innerText;
+        const price = document.getElementById('productPrice').innerText;
+        const qty = document.getElementById('qty').value;
+        const btn = document.getElementById('cartBtn');
+
+        btn.innerText = "SAVING...";
+        btn.disabled = true;
+
+        // Supabase mein order save karna
+        const { error } = await _supabase
+            .from('orders')
+            .insert([{ 
+                product_name: title, 
+                price: price, 
+                qty: parseInt(qty) 
+            }]);
 
         if (error) {
-            console.log("Error loading reviews", error);
-            return;
+            alert("Error: Order not saved! Check table columns.");
+            btn.innerText = "ADD TO CART";
+            btn.disabled = false;
+        } else {
+            alert("Order saved to Database successfully!");
+            btn.innerText = "ADDED ✅";
+            
+            // Local Cart update
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart.push({ name: title, price: price, qty: qty });
+            localStorage.setItem('cart', JSON.stringify(cart));
         }
-
-        const reviewsList = document.getElementById('reviewsList');
-        const reviewCount = document.getElementById('reviewCount');
-        
-        reviewCount.innerText = `${reviews.length} reviews for this product`;
-        
-        if (reviews.length === 0) {
-            reviewsList.innerHTML = "<p>No reviews yet. Be the first to review!</p>";
-            return;
-        }
-
-        reviewsList.innerHTML = reviews.map(rev => `
-            <div style="margin-bottom: 30px; border-bottom: 1px dashed #ddd; padding-bottom: 20px; display: flex; gap: 15px;">
-                <div style="width: 50px; height: 50px; background: #eee; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; color: #aaa;">👤</div>
-                <div>
-                    <div style="color: #fbc02d;">★★★★★</div>
-                    <strong style="color: #333;">${rev.name}</strong> 
-                    <span style="color: #999; font-size: 12px;">– ${new Date(rev.created_at).toLocaleDateString()}</span>
-                    <p style="margin: 10px 0; color: #555; font-style: italic;">"${rev.review_text}"</p>
-                </div>
-            </div>
-        `).join('');
     }
 
-    // 2. Submit Review to Supabase
+    // 4. REVIEWS FETCH & SUBMIT
+    async function loadReviews() {
+        const { data: reviews } = await _supabase.from('reviews').select('*').order('created_at', { ascending: false });
+        const list = document.getElementById('reviewsList');
+        const count = document.getElementById('reviewCount');
+        
+        if (reviews) {
+            count.innerText = `${reviews.length} reviews for this product`;
+            list.innerHTML = reviews.map(r => `
+                <div style="border-bottom: 1px dashed #eee; padding: 15px 0;">
+                    <strong style="color: #6c63ff;">${r.name}</strong> <small>– ${new Date(r.created_at).toLocaleDateString()}</small>
+                    <p style="margin: 5px 0;">"${r.review_text}"</p>
+                </div>
+            `).join('');
+        }
+    }
+
     async function submitReview() {
         const name = document.getElementById('revName').value;
         const text = document.getElementById('revText').value;
         const email = document.getElementById('revEmail').value;
 
-        if (!name || !text || !email) {
-            alert("Please fill all fields!");
-            return;
-        }
+        if (!name || !text || !email) { return alert("Please fill all fields!"); }
 
-        const { error } = await _supabase
-            .from('reviews')
-            .insert([{ name: name, review_text: text, email: email }]);
-
-        if (error) {
-            alert("Error saving review!");
-        } else {
-            alert("Review posted successfully!");
-            location.reload(); // Page reload karke naya review dikhayenge
-        }
+        const { error } = await _supabase.from('reviews').insert([{ name, review_text: text, email }]);
+        if (!error) { alert("Review posted!"); location.reload(); }
     }
-
-    // Page load hote hi reviews dikhao
-    window.onload = loadReviews;
-</script>
 </script>
 
 </body>

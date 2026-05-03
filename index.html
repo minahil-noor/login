@@ -160,7 +160,7 @@
     <a href="#">Home</a>
     <a href="#brands">Brands</a>
     <a href="#repair">Repair</a>
-    <a href="#contact">Contact</a>
+
     <!-- Admin link ko ID di aur style se chhupa diya -->
     <a href="admin.html" id="adminLink" style="display: none;" target="_blank">Admin</a>
     <a href="#" onclick="toggleCart()">Cart</a>
@@ -362,6 +362,11 @@ function showBrand(brandName) {
     }
     // Smooth scroll to products
     document.getElementById('productsSection').scrollIntoView({behavior:'smooth'});
+}
+function viewProduct(name, price, image) {
+    const productData = { name, price, image };
+    localStorage.setItem('selectedProduct', JSON.stringify(productData));
+    window.location.href = 'details.html';
 }
 
 // Add to Cart and Open Drawer
